@@ -14,6 +14,6 @@ export const generateBox = (
   const mesh = new THREE.Mesh(geometry, material);
   const boxPosition = new THREE.Vector3(x, y, z).addScalar(0.5);
   mesh.position.set(boxPosition.x, boxPosition.y, boxPosition.z);
-
   scene.add(mesh);
+  return mesh;
 };

@@ -3,7 +3,7 @@ import { buildMatrix, getStartEndPoints } from "./algorithms/helpers";
 import { renderStartEndPoints } from "./three-helpers/render-start-end";
 import { createScene } from "./three-helpers/scene";
 
-const gridSize = 10;
+const gridSize = 50;
 
 const scene = createScene(gridSize);
 const matrix = buildMatrix(gridSize, gridSize, gridSize);

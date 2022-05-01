@@ -6,11 +6,13 @@ export const breadthFirstSearch = async (
   scene: THREE.Scene,
   startEndPoints: { start: Position; end: Position }
 ) => {
-  let visited: { [index: number]: boolean } = {};
+  const visited: { [index: number]: boolean } = {};
+  const prev: { [index: number]: Position } = {};
   const { start, end } = startEndPoints;
   let queueX: number[] = [];
   let queueY: number[] = [];
   let queueZ: number[] = [];
+  let queuePath: Position[] = [];
 
   let cords = [
     [-1, 0, 0],
@@ -36,6 +38,7 @@ export const breadthFirstSearch = async (
   queueX.push(start.x);
   queueY.push(start.y);
   queueZ.push(start.z);
+  // queuePath.push({x: start.x, y: start.y, z: start.z});
 
   let level = 0;
   while (queueX.length) {
@@ -81,6 +84,7 @@ export const breadthFirstSearch = async (
           queueX.push(newX);
           queueY.push(newY);
           queueZ.push(newZ);
+          prev[getMapKey(newX, newY, newZ)] = { x, y, z };
           // }
         }
       }
