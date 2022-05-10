@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { Position } from "../interfaces";
+import { objects } from "../state/objects";
 
 export const generateBox = (
   scene: THREE.Scene,
@@ -15,5 +16,6 @@ export const generateBox = (
   const boxPosition = new THREE.Vector3(x, y, z).addScalar(0.5);
   mesh.position.set(boxPosition.x, boxPosition.y, boxPosition.z);
   scene.add(mesh);
+  objects.boxes.push(mesh.id);
   return mesh;
 };

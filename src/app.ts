@@ -1,23 +1,41 @@
 import { breadthFirstSearch } from "./algorithms/bfs";
-import { buildMatrix, getStartEndPoints } from "./algorithms/helpers";
+import {
+  buildMatrix,
+  getStartEndPoints,
+  highlightPath,
+} from "./algorithms/helpers";
+import { settings } from "./state/settings";
+import { generateGrid } from "./three-helpers/generate-grid";
 import { renderStartEndPoints } from "./three-helpers/render-start-end";
 import { createScene } from "./three-helpers/scene";
+import { clearBoxes } from "./three-helpers/reset";
+import { addDatGui } from "./three-helpers/dat-gui";
 
-const gridSize = 50;
+const scene = createScene();
+addDatGui(scene);
+generateGrid(scene, settings.gridSize);
 
-const scene = createScene(gridSize);
-const matrix = buildMatrix(gridSize, gridSize, gridSize);
-const startEndPoints = getStartEndPoints(matrix);
-renderStartEndPoints(scene, startEndPoints);
-breadthFirstSearch(matrix, scene, startEndPoints);
+document.getElementById("start")?.addEventListener("click", () => {
+  executeSearch();
+});
 
-// (async () => {
-//   for (let x = 0; x < 20; x++) {
-//     for (let y = 0; y < 20; y++) {
-//       for (let z = 0; z < 20; z++) {
-//         generateBox(scene, { x, y, z });
-//         await delay(1);
-//       }
-//     }
-//   }
-// })();
+document.getElementById("reset")?.addEventListener("click", () => {
+  clearBoxes(scene);
+});
+
+const executeSearch = async () => {
+  const { gridSize } = settings;
+  generateGrid(scene, gridSize);
+  const matrix = buildMatrix(gridSize, gridSize, gridSize);
+  const startEndPoints = getStartEndPoints(matrix);
+  renderStartEndPoints(scene, startEndPoints);
+  const results = await breadthFirstSearch(matrix, scene, startEndPoints);
+  console.log(results);
+  highlightPath(
+    scene,
+    results?.mat,
+    results?.end,
+    results?.prev,
+    results?.boxes
+  );
+};

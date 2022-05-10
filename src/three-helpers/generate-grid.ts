@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { MeshBasicMaterial } from "three";
+import { objects } from "../state/objects";
 
 export const generateGrid = (scene: THREE.Scene, size: number) => {
   let divisions = size;
@@ -30,6 +31,10 @@ export const generateGrid = (scene: THREE.Scene, size: number) => {
   gridHelperX.position.x = size / 2;
   gridHelperX.rotation.x = Math.PI / 2;
   scene.add(gridHelperX);
+
+  objects.grids.push(gridHelperX.id);
+  objects.grids.push(gridHelperY.id);
+  objects.grids.push(gridHelperZ.id);
 
   const axesHelper = new THREE.AxesHelper(5);
   scene.add(axesHelper);

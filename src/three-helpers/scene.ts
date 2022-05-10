@@ -1,9 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { generateBox } from "./generate-box";
-import { generateGrid } from "./generate-grid";
 
-export const createScene = (gridSize: number) => {
+export const createScene = () => {
   // init
 
   const camera = new THREE.PerspectiveCamera(
@@ -16,12 +14,6 @@ export const createScene = (gridSize: number) => {
   camera.lookAt(0, 0, 0);
 
   const scene = new THREE.Scene();
-
-  // ---------------------------------------------------------
-
-  generateGrid(scene, gridSize);
-
-  // ---------------------------------------------------------
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);

@@ -1,0 +1,16 @@
+.button-container {
+  position: absolute;
+  display: flex;
+  margin: 1rem;
+  left: 50%;
+  font-size: 2rem;
+  transform: translate(-50%);
+}
+
+.button-container > button:not(:last-child) {
+  margin-right: 1.5rem;
+}
+
+.btn {
+  font-size: 1.5rem;
+}
