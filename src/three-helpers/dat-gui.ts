@@ -7,9 +7,10 @@ export const addDatGui = (scene: THREE.Scene) => {
   const gui = new GUI();
   const searchSettings = gui.addFolder("Search Settings");
   const gridSize = searchSettings.add(settings, "gridSize", 0, 100, 1);
+  searchSettings.add(settings, "speed", 1, 1000, 1);
+  searchSettings.add(settings, "dof", { 6: 6, 18: 18, 26: 26 });
 
   gridSize.onChange((value: number) => {
-    console.log(value);
     clearGrids(scene);
     generateGrid(scene, value);
   });

@@ -1,4 +1,4 @@
-import { Position } from "../interfaces";
+import { Position } from "../types";
 import { generateBox } from "./generate-box";
 
 export const renderStartEndPoints = (

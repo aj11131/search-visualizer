@@ -1,8 +1,6 @@
 import { objects } from "../state/objects";
 
 export const clearGrids = (scene: THREE.Scene) => {
-  console.log(objects.grids);
-
   let currentGrid = objects.grids.pop();
   while (currentGrid) {
     scene.remove(scene.getObjectById(currentGrid) as THREE.Object3D);

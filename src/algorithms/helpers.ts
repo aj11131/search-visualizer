@@ -1,4 +1,4 @@
-import { Position } from "../interfaces";
+import { Position } from "../types";
 
 export const getStartEndPoints = (matrix: number[][][]) => {
   const startX = Math.floor(Math.random() * matrix[0][0].length);
@@ -22,7 +22,6 @@ export const getStartEndPoints = (matrix: number[][][]) => {
 };
 
 export const buildMatrix = (X: number, Y: number, Z: number): number[][][] => {
-  console.log(X);
   const xArray = new Array(X).fill(Infinity);
   const yArray = new Array(Y).fill([...xArray]);
   const zArray = new Array(Z).fill([...yArray]);
@@ -32,30 +31,42 @@ export const buildMatrix = (X: number, Y: number, Z: number): number[][][] => {
 export const highlightPath = async (
   scene: THREE.Scene,
   mat: number[][][],
+  start: Position,
   end: Position,
-  prev: { [index: number]: Position },
-  boxes: { [index: number]: number }
+  path: { [index: number]: { position: Position; level: number } },
+  boxes: { [index: number]: number },
+  stopped: boolean
 ) => {
-  let previousNode = prev[getMapKey(mat, end.x, end.y, end.z)];
+  if (stopped) return;
+
+  let startKey = getMapKey(mat, start.x, start.y, start.z);
+  let previousKey = -Infinity;
+  let previousNode = path[getMapKey(mat, end.x, end.y, end.z)].position;
   let currentBoxId =
     boxes[getMapKey(mat, previousNode.x, previousNode.y, previousNode.z)];
-  console.log(previousNode);
-  console.log(currentBoxId);
   let i = 0;
-  while (currentBoxId && i < 100) {
+
+  while (currentBoxId && previousKey !== startKey) {
+    previousKey = getMapKey(
+      mat,
+      previousNode.x,
+      previousNode.y,
+      previousNode.z
+    );
     const object = scene.getObjectById(currentBoxId) as THREE.Mesh<
       THREE.BoxGeometry,
       THREE.MeshBasicMaterial
     >;
     object.material.color.set("#0000FF");
     object.material.opacity = 1;
-    previousNode =
-      prev[getMapKey(mat, previousNode.x, previousNode.y, previousNode.z)];
-    currentBoxId =
-      boxes[getMapKey(mat, previousNode.x, previousNode.y, previousNode.z)];
+    previousNode = path[previousKey].position;
+    currentBoxId = boxes[previousKey];
     i++;
   }
-  await delay(500);
+};
+
+export const getCords = (dof: number) => {
+  return cords[dof] || cords[6];
 };
 
 export const getMapKey = (
@@ -74,3 +85,62 @@ export const delay = async (ms: number) => [
     }, ms);
   }),
 ];
+
+const cords: { [index: number]: number[][] } = {
+  6: [
+    [-1, 0, 0],
+    [0, 1, 0],
+    [1, 0, 0],
+    [0, -1, 0],
+    [0, 0, 1],
+    [0, 0, -1],
+  ],
+  18: [
+    [-1, -1, 0],
+    [-1, 0, -1],
+    [-1, 0, 0],
+    [-1, 0, 1],
+    [-1, 1, 0],
+    [0, -1, -1],
+    [0, -1, 0],
+    [0, -1, 1],
+    [0, 0, -1],
+    [0, 0, 1],
+    [0, 1, -1],
+    [0, 1, 0],
+    [0, 1, 1],
+    [1, -1, 0],
+    [1, 0, -1],
+    [1, 0, 0],
+    [1, 0, 1],
+    [1, 1, 0],
+  ],
+  26: [
+    [-1, -1, -1],
+    [-1, -1, 0],
+    [-1, -1, 1],
+    [-1, 0, -1],
+    [-1, 0, 0],
+    [-1, 0, 1],
+    [-1, 1, -1],
+    [-1, 1, 0],
+    [-1, 1, 1],
+    [0, -1, -1],
+    [0, -1, 0],
+    [0, -1, 1],
+    [0, 0, -1],
+    [0, 0, 1],
+    [0, 1, -1],
+    [0, 1, 0],
+    [0, 1, 1],
+    [1, -1, -1],
+    [1, -1, 0],
+    [1, -1, 1],
+    [1, 0, -1],
+    [1, 0, 0],
+    [1, 0, 1],
+    [1, 1, -1],
+    [1, 1, 0],
+    [1, 1, 1],
+  ],
+};

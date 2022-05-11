@@ -16,7 +16,12 @@ addDatGui(scene);
 generateGrid(scene, settings.gridSize);
 
 document.getElementById("start")?.addEventListener("click", () => {
+  settings.stop = false;
   executeSearch();
+});
+
+document.getElementById("stop")?.addEventListener("click", () => {
+  settings.stop = true;
 });
 
 document.getElementById("reset")?.addEventListener("click", () => {
@@ -25,17 +30,17 @@ document.getElementById("reset")?.addEventListener("click", () => {
 
 const executeSearch = async () => {
   const { gridSize } = settings;
-  generateGrid(scene, gridSize);
   const matrix = buildMatrix(gridSize, gridSize, gridSize);
   const startEndPoints = getStartEndPoints(matrix);
   renderStartEndPoints(scene, startEndPoints);
   const results = await breadthFirstSearch(matrix, scene, startEndPoints);
-  console.log(results);
   highlightPath(
     scene,
     results?.mat,
+    results?.start,
     results?.end,
-    results?.prev,
-    results?.boxes
+    results?.path,
+    results?.boxes,
+    results?.stopped
   );
 };

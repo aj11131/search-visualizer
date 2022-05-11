@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Position } from "../interfaces";
+import { Position } from "../types";
 import { objects } from "../state/objects";
 
 export const generateBox = (
