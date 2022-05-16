@@ -3,7 +3,7 @@ import { settings } from "../state/settings";
 import { generateBox } from "../three-helpers/generate-box";
 import { delay, getCords, getMapKey } from "./helpers";
 
-export const breadthFirstSearch = async (
+export const depthFirstSearch = async (
   mat: number[][][],
   scene: THREE.Scene,
   startEndPoints: { start: Position; end: Position }
@@ -12,27 +12,27 @@ export const breadthFirstSearch = async (
   const path: { [index: number]: { position: Position; level: number } } = {};
   const boxes: { [index: number]: number } = {};
   const { start, end } = startEndPoints;
-  let queueX: number[] = [];
-  let queueY: number[] = [];
-  let queueZ: number[] = [];
+  let stackX: number[] = [];
+  let stackY: number[] = [];
+  let stackZ: number[] = [];
   let levels: number[] = [];
   let dof = settings.dof;
   let cords = getCords(dof);
 
-  queueX.push(start.x);
-  queueY.push(start.y);
-  queueZ.push(start.z);
+  stackX.push(start.x);
+  stackY.push(start.y);
+  stackZ.push(start.z);
   levels.push(0);
 
-  while (queueX.length) {
+  while (stackX.length) {
     if (settings.stop === true) {
       break;
     }
 
-    let x = queueX.shift() as number;
-    let y = queueY.shift() as number;
-    let z = queueZ.shift() as number;
-    let level = levels.shift() as number;
+    let x = stackX.pop() as number;
+    let y = stackY.pop() as number;
+    let z = stackZ.pop() as number;
+    let level = levels.pop() as number;
 
     if (x === end.x && y === end.y && z === end.z) {
       break;
@@ -66,9 +66,9 @@ export const breadthFirstSearch = async (
         mat[newX][newY] !== undefined &&
         mat[newX][newY][newZ] !== undefined
       ) {
-        queueX.push(newX);
-        queueY.push(newY);
-        queueZ.push(newZ);
+        stackX.push(newX);
+        stackY.push(newY);
+        stackZ.push(newZ);
         levels.push(level + 1);
         const mapKey = getMapKey(mat, newX, newY, newZ);
 

@@ -10,12 +10,14 @@ import { renderStartEndPoints } from "./three-helpers/render-start-end";
 import { createScene } from "./three-helpers/scene";
 import { clearBoxes } from "./three-helpers/reset";
 import { addDatGui } from "./three-helpers/dat-gui";
+import { depthFirstSearch } from "./algorithms/dfs";
 
 const scene = createScene();
 addDatGui(scene);
 generateGrid(scene, settings.gridSize);
 
 document.getElementById("start")?.addEventListener("click", () => {
+  clearBoxes(scene);
   settings.stop = false;
   executeSearch();
 });
@@ -25,6 +27,7 @@ document.getElementById("stop")?.addEventListener("click", () => {
 });
 
 document.getElementById("reset")?.addEventListener("click", () => {
+  settings.stop = true;
   clearBoxes(scene);
 });
 
@@ -33,7 +36,11 @@ const executeSearch = async () => {
   const matrix = buildMatrix(gridSize, gridSize, gridSize);
   const startEndPoints = getStartEndPoints(matrix);
   renderStartEndPoints(scene, startEndPoints);
-  const results = await breadthFirstSearch(matrix, scene, startEndPoints);
+  const results = await settings.algorithms[settings.algorithm](
+    matrix,
+    scene,
+    startEndPoints
+  );
   highlightPath(
     scene,
     results?.mat,
