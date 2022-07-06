@@ -11,6 +11,7 @@ interface Settings {
   pause: boolean;
   stop: boolean;
   dof: number;
+  obstacleDensity: number;
 }
 
 export const settings: Settings = {
@@ -24,4 +25,5 @@ export const settings: Settings = {
   pause: false,
   stop: false,
   dof: 6,
+  obstacleDensity: 0,
 };

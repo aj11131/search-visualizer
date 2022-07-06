@@ -1,4 +1,4 @@
-import { Position } from "../types";
+import { Position, SearchResults } from "../types";
 
 export const getStartEndPoints = (matrix: number[][][]) => {
   const startX = Math.floor(Math.random() * matrix[0][0].length);
@@ -36,15 +36,13 @@ export const buildMatrix = (X: number, Y: number, Z: number): number[][][] => {
   return zArray;
 };
 
+export const generateObstacle = (scene: THREE.Scene, position: Position) => {};
+
 export const highlightPath = async (
   scene: THREE.Scene,
-  mat: number[][][],
-  start: Position,
-  end: Position,
-  path: { [index: number]: { position: Position; level: number } },
-  boxes: { [index: number]: number },
-  stopped: boolean
+  results: SearchResults
 ) => {
+  const { mat, start, end, boxes, path, stopped } = results;
   if (stopped) return;
 
   let startKey = getMapKey(mat, start.x, start.y, start.z);
@@ -73,10 +71,6 @@ export const highlightPath = async (
   }
 };
 
-export const getCords = (dof: number) => {
-  return cords[dof] || cords[6];
-};
-
 export const getMapKey = (
   mat: number[][][],
   x: number,
@@ -93,6 +87,10 @@ export const delay = async (ms: number) => [
     }, ms);
   }),
 ];
+
+export const getCords = (dof: number) => {
+  return cords[dof] || cords[6];
+};
 
 const cords: { [index: number]: number[][] } = {
   6: [

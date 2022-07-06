@@ -1,4 +1,3 @@
-import { breadthFirstSearch } from "./algorithms/bfs";
 import {
   buildMatrix,
   getStartEndPoints,
@@ -10,7 +9,6 @@ import { renderStartEndPoints } from "./three-helpers/render-start-end";
 import { createScene } from "./three-helpers/scene";
 import { clearBoxes } from "./three-helpers/reset";
 import { addDatGui } from "./three-helpers/dat-gui";
-import { depthFirstSearch } from "./algorithms/dfs";
 
 const scene = createScene();
 addDatGui(scene);
@@ -41,13 +39,5 @@ const executeSearch = async () => {
     scene,
     startEndPoints
   );
-  highlightPath(
-    scene,
-    results?.mat,
-    results?.start,
-    results?.end,
-    results?.path,
-    results?.boxes,
-    results?.stopped
-  );
+  highlightPath(scene, results);
 };

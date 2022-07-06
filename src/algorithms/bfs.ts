@@ -1,4 +1,4 @@
-import { Position } from "../types";
+import { Position, SearchResults } from "../types";
 import { settings } from "../state/settings";
 import { generateBox } from "../three-helpers/generate-box";
 import { delay, getCords, getMapKey } from "./helpers";
@@ -82,5 +82,13 @@ export const breadthFirstSearch = async (
       }
     }
   }
-  return { mat, start, end, path, boxes, stopped: settings.stop };
+  const results: SearchResults = {
+    mat,
+    start,
+    end,
+    path,
+    boxes,
+    stopped: settings.stop,
+  };
+  return results;
 };
