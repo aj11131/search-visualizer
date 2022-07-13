@@ -10,15 +10,15 @@ export const addDatGui = (scene: THREE.Scene) => {
   searchSettings.add(settings, "speed", 1, 1000, 1);
   searchSettings.add(settings, "dof", { 6: 6, 18: 18, 26: 26 });
   searchSettings.add(settings, "algorithm", { BFS: 1, DFS: 2 });
-  const obstacleDensity = searchSettings.add(
-    settings,
-    "obstacleDensity",
-    0,
-    100,
-    1
-  );
+  // const obstacleDensity = searchSettings.add(
+  //   settings,
+  //   "obstacleDensity",
+  //   0,
+  //   100,
+  //   1
+  // );
 
-  obstacleDensity.onChange((value: number) => {});
+  // obstacleDensity.onChange((value: number) => {});
 
   gridSize.onChange((value: number) => {
     clearGrids(scene);

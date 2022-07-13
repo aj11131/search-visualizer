@@ -1,0 +1,13 @@
+DEMO:
+http://search-visualizer11131.s3-website-us-east-1.amazonaws.com/
+
+Press start to begin the search.
+
+This tool visualizes either a BFS or DFS in a 3d matrix. The BFS will highlight the shortest path from the starting point to the end. The DFS will highlight a path, but not necessarily the shortest.
+
+OPTIONS:
+
+- The grid size is the matrix size that the search will run within. Note large matrices will consume a lot of resources.
+- The speed option is the millisecond delay between each node being searched. 1 being the lowest and 1000 being the highest. Note unless you have very powerful hardware, the lowest settings will probably not be achieved.
+- The 'dof' or degrees of freedom option is the number of neighbor nodes that a node will consider for the next step of the search.
+- The algorithm option allows you to choose between BFS or DFS, BFS being the default
